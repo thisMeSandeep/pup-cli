@@ -35,7 +35,11 @@ Clipboard:
   - macOS:    Built-in (pbcopy) — no setup needed
   - Windows:  Built-in (clip) — no setup needed
   - Linux (Wayland): sudo apt install wl-clipboard
-  - Linux (X11):     sudo apt install xclip`,
+  - Linux (X11):     sudo apt install xclip
+
+Note:
+  Only one mode flag (--enhance, --short, --fix) should be used at a time.
+  If multiple flags are provided, only the first one will be applied.`,
   )
   .action(run);
 

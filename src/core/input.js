@@ -19,12 +19,14 @@ function readStdin() {
 export async function getInput(args) {
   // Check for inline argument first
   if (args.length > 0) {
-    return args.join(" ");
+    const prompt = args.join(" ").trim();
+    return prompt || null;
   }
 
   // Check if stdin has piped data (not a TTY = data is being piped in)
   if (!process.stdin.isTTY) {
-    return await readStdin();
+    const prompt = await readStdin();
+    return prompt || null;
   }
 
   // No input provided

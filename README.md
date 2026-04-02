@@ -56,7 +56,7 @@ echo "fix the auth bug" | pup --enhance
 
 ## How It Works
 
-pup sends your prompt to Gemini 2.0 Flash, which rewrites it based on the mode you pick. The improved prompt is printed to stdout and automatically copied to your clipboard.
+pup sends your prompt to Gemini 2.5 Flash, which rewrites it based on the mode you pick. The improved prompt is printed to stdout and automatically copied to your clipboard.
 
 ## Notes
 

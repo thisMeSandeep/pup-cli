@@ -99,6 +99,8 @@ export async function run(args, options) {
     // Show a specific error message based on what went wrong
     if (msg.includes("GEMINI_API_KEY")) {
       printError(`Error: ${msg}`);
+    } else if (msg.includes("blocked by Gemini's safety filters")) {
+      printError(`Error: ${msg}`);
     } else if (msg.includes("empty response")) {
       printError(`Error: ${msg}`);
     } else if (msg.includes("429") || msg.includes("RESOURCE_EXHAUSTED") || msg.includes("quota")) {

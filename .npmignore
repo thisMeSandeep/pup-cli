@@ -1,0 +1,41 @@
+# Development and documentation files not needed in published package
+.claude/
+PRD.MD
+AUDIT_FIXES.md
+test_*.txt
+
+# Build and test artifacts
+coverage/
+*.tsbuildinfo
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env
+.env.*
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Git files
+.git/
+.gitignore
+.gitattributes
+
+# CI/CD files
+.github/
+.gitlab-ci.yml
+.travis.yml
+
+# Temp files
+tmp/
+temp/
+*.tmp
