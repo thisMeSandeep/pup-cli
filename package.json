@@ -1,5 +1,5 @@
 {
-  "name": "pup-cli",
+  "name": "pup-prompt",
   "version": "1.0.0",
   "description": "Improve your AI prompts directly from the terminal",
   "type": "module",
@@ -21,16 +21,16 @@
     "llm",
     "ai-tools"
   ],
-  "author": "Sandeep Singh Nayal",
+  "author": "Sandeep Singh Nayal batfighter50@gmail.com",
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/pup-cli.git"
+    "url": "https://github.com/thisMeSandeep/pup-prompt"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/pup-cli/issues"
+    "url": "https://github.com/thisMeSandeep/pup-prompt"
   },
-  "homepage": "https://github.com/yourusername/pup-cli#readme",
+  "homepage": "https://github.com/thisMeSandeep/pup-prompt",
   "packageManager": "pnpm@10.33.0",
   "dependencies": {
     "@google/genai": "^1.48.0",

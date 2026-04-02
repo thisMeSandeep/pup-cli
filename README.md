@@ -5,10 +5,10 @@ Improve your AI prompts directly from the terminal. One command, better prompts 
 ## Installation
 
 ```bash
-npm install -g pup-cli
-pnpm add -g pup-cli
-yarn global add pup-cli
-bun add -g pup-cli
+npm install -g pup-prompt
+pnpm add -g pup-prompt
+yarn global add pup-prompt
+bun add -g pup-prompt
 ```
 
 ## API Key Setup
