@@ -30,7 +30,7 @@ export async function improvePrompt(prompt, options) {
 
   // Call the Gemini API with system instruction + user prompt
   const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash",
+    model: "gemini-2.5-flash-lite",
     contents: prompt,
     config: {
       systemInstruction: systemPrompt,
