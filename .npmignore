@@ -2,6 +2,7 @@
 .claude/
 PRD.MD
 AUDIT_FIXES.md
+PUBLISH_GUIDE.md
 test_*.txt
 
 # Build and test artifacts
