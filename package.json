@@ -4,7 +4,7 @@
   "description": "Improve your AI prompts directly from the terminal",
   "type": "module",
   "bin": {
-    "pup": "./bin/promptly.js"
+    "pup": "./bin/index.js"
   },
   "engines": {
     "node": ">=18"
