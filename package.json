@@ -1,20 +1,29 @@
 {
   "name": "pup-cli",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Improve your AI prompts directly from the terminal",
   "type": "module",
+  "bin": {
+    "pup": "./bin/promptly.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "prompt",
+    "ai",
+    "cli",
+    "gemini"
+  ],
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.33.0",
   "dependencies": {
     "@google/genai": "^1.48.0",
     "chalk": "^5.6.2",
-    "clipboardy": "^5.3.1",
     "commander": "^14.0.3",
     "ora": "^9.3.0"
   }
