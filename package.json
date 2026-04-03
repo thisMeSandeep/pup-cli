@@ -1,6 +1,6 @@
 {
   "name": "pup-prompt",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Improve your AI prompts directly from the terminal",
   "type": "module",
   "bin": {
@@ -25,12 +25,12 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/thisMeSandeep/pup-prompt"
+    "url": "https://github.com/thisMeSandeep/pup-cli"
   },
   "bugs": {
-    "url": "https://github.com/thisMeSandeep/pup-prompt"
+    "url": "https://github.com/thisMeSandeep/pup-cli"
   },
-  "homepage": "https://github.com/thisMeSandeep/pup-prompt",
+  "homepage": "https://github.com/thisMeSandeep/pup-cli",
   "packageManager": "pnpm@10.33.0",
   "dependencies": {
     "@google/genai": "^1.48.0",
