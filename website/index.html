@@ -1,0 +1,1248 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pup — Prompt UPgrade</title>
+    <meta
+      name="description"
+      content="Transform your quick prompts into clear, structured instructions for AI coding assistants."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ── TOKENS ─────────────────────────────────── */
+      :root {
+        --surface-0: #0a0a0a;
+        --surface-1: #111111;
+        --surface-2: #1a1a1a;
+        --surface-3: #222222;
+
+        --border-0: #1e1e1e;
+        --border-1: #2a2a2a;
+        --border-2: #383838;
+
+        --text-0: #f0f0f0;
+        --text-1: #a0a0a0;
+        --text-2: #5a5a5a;
+
+        --accent: #e8e0d4;
+        --accent-dim: rgba(232, 224, 212, 0.08);
+        --accent-glow: rgba(232, 224, 212, 0.04);
+
+        --green: #3ecf8e;
+        --green-dim: rgba(62, 207, 142, 0.12);
+
+        --mono: "Geist Mono", monospace;
+        --sans: "DM Sans", sans-serif;
+
+        --r-sm: 4px;
+        --r-md: 6px;
+        --r-lg: 10px;
+      }
+
+      /* ── RESET ──────────────────────────────────── */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--surface-0);
+        color: var(--text-0);
+        font-family: var(--sans);
+        font-size: 15px;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+
+      /* ── LAYOUT ─────────────────────────────────── */
+      .wrap {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      /* ── NAV ────────────────────────────────────── */
+      nav {
+        padding: 24px 0;
+        border-bottom: 1px solid var(--border-0);
+        position: sticky;
+        top: 0;
+        background: rgba(10, 10, 10, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        z-index: 100;
+      }
+
+      .nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .logo {
+        font-family: var(--mono);
+        font-size: 16px;
+        font-weight: 500;
+        color: var(--text-0);
+        letter-spacing: -0.02em;
+      }
+
+      .logo span {
+        color: var(--text-2);
+        font-weight: 300;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .nav-link {
+        font-family: var(--mono);
+        font-size: 12px;
+        font-weight: 400;
+        color: var(--text-1);
+        text-decoration: none;
+        padding: 6px 12px;
+        border-radius: var(--r-md);
+        border: 1px solid transparent;
+        transition: all 0.15s ease;
+        letter-spacing: 0.01em;
+      }
+
+      .nav-link:hover {
+        color: var(--text-0);
+        border-color: var(--border-1);
+        background: var(--surface-2);
+      }
+
+      .nav-link.cta {
+        background: var(--text-0);
+        color: var(--surface-0);
+        border-color: var(--text-0);
+      }
+
+      .nav-link.cta:hover {
+        background: var(--accent);
+        border-color: var(--accent);
+      }
+
+      /* ── HERO ───────────────────────────────────── */
+      .hero {
+        padding: 96px 0 72px;
+        border-bottom: 1px solid var(--border-0);
+      }
+
+      .eyebrow {
+        font-family: var(--mono);
+        font-size: 11px;
+        font-weight: 400;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-2);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .eyebrow::before {
+        content: "";
+        display: inline-block;
+        width: 20px;
+        height: 1px;
+        background: var(--border-2);
+      }
+
+      h1 {
+        font-family: var(--sans);
+        font-size: clamp(36px, 6vw, 54px);
+        font-weight: 300;
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+        color: var(--text-0);
+        margin-bottom: 20px;
+      }
+
+      h1 em {
+        font-style: italic;
+        font-weight: 300;
+        color: var(--text-1);
+      }
+
+      .hero-sub {
+        font-size: 16px;
+        color: var(--text-1);
+        font-weight: 300;
+        max-width: 480px;
+        line-height: 1.7;
+        margin-bottom: 40px;
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 20px;
+        border-radius: var(--r-md);
+        font-family: var(--mono);
+        font-size: 13px;
+        font-weight: 400;
+        letter-spacing: 0.01em;
+        text-decoration: none;
+        border: 1px solid;
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+
+      .btn-primary {
+        background: var(--text-0);
+        color: var(--surface-0);
+        border-color: var(--text-0);
+      }
+
+      .btn-primary:hover {
+        background: var(--accent);
+        border-color: var(--accent);
+        transform: translateY(-1px);
+      }
+
+      .btn-ghost {
+        background: transparent;
+        color: var(--text-1);
+        border-color: var(--border-2);
+      }
+
+      .btn-ghost:hover {
+        color: var(--text-0);
+        border-color: var(--border-2);
+        background: var(--surface-2);
+      }
+
+      /* ── TERMINAL ───────────────────────────────── */
+      .terminal-section {
+        padding: 72px 0;
+        border-bottom: 1px solid var(--border-0);
+      }
+
+      .terminal {
+        background: var(--surface-1);
+        border: 1px solid var(--border-1);
+        border-radius: var(--r-lg);
+        overflow: hidden;
+      }
+
+      .terminal-top {
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--border-0);
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .dots {
+        display: flex;
+        gap: 6px;
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--border-2);
+      }
+
+      .dot.r {
+        background: #e85c50;
+      }
+      .dot.y {
+        background: #f4c430;
+      }
+      .dot.g {
+        background: var(--green);
+      }
+
+      .terminal-label {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--text-2);
+        letter-spacing: 0.04em;
+      }
+
+      .terminal-body {
+        padding: 28px;
+      }
+
+      .t-line {
+        font-family: var(--mono);
+        font-size: 13px;
+        line-height: 1.8;
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+        margin-bottom: 4px;
+      }
+
+      .t-prompt {
+        color: var(--green);
+        flex-shrink: 0;
+        user-select: none;
+      }
+
+      .t-cmd {
+        color: var(--text-0);
+      }
+
+      .t-flag {
+        color: var(--text-1);
+      }
+
+      .t-out {
+        color: var(--green);
+        padding-left: 28px;
+        margin-bottom: 24px;
+        font-size: 12.5px;
+        line-height: 1.7;
+        display: block;
+      }
+
+      .t-out:last-child {
+        margin-bottom: 0;
+      }
+
+      .t-divider {
+        border: none;
+        border-top: 1px solid var(--border-0);
+        margin: 20px 0;
+      }
+
+      /* ── INSTALL ────────────────────────────────── */
+      .install-section {
+        padding: 72px 0;
+        border-bottom: 1px solid var(--border-0);
+      }
+
+      .section-label {
+        font-family: var(--mono);
+        font-size: 11px;
+        font-weight: 400;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-2);
+        margin-bottom: 32px;
+      }
+
+      .install-block {
+        background: var(--surface-1);
+        border: 1px solid var(--border-1);
+        border-radius: var(--r-lg);
+        padding: 20px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 12px;
+      }
+
+      .install-cmd {
+        font-family: var(--mono);
+        font-size: 14px;
+        color: var(--text-0);
+      }
+
+      .install-cmd .prefix {
+        color: var(--text-2);
+        user-select: none;
+      }
+
+      .copy-btn {
+        background: var(--surface-3);
+        border: 1px solid var(--border-2);
+        border-radius: var(--r-sm);
+        color: var(--text-1);
+        font-family: var(--mono);
+        font-size: 11px;
+        padding: 4px 10px;
+        cursor: pointer;
+        transition: all 0.15s;
+        flex-shrink: 0;
+        letter-spacing: 0.04em;
+      }
+
+      .copy-btn:hover {
+        color: var(--text-0);
+        background: var(--surface-2);
+        border-color: var(--border-2);
+      }
+
+      .copy-btn.copied {
+        color: var(--green);
+        border-color: var(--green-dim);
+      }
+
+      .note-small {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--text-2);
+        letter-spacing: 0.02em;
+      }
+
+      /* ── SETUP TABS ─────────────────────────────── */
+      .setup-section {
+        padding: 72px 0;
+        border-bottom: 1px solid var(--border-0);
+      }
+
+      .tab-bar {
+        display: flex;
+        gap: 2px;
+        margin-bottom: 16px;
+        background: var(--surface-1);
+        border: 1px solid var(--border-1);
+        border-radius: var(--r-md);
+        padding: 3px;
+        width: fit-content;
+      }
+
+      .tab-btn {
+        background: transparent;
+        border: none;
+        border-radius: var(--r-sm);
+        padding: 6px 16px;
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--text-1);
+        cursor: pointer;
+        transition: all 0.15s;
+        letter-spacing: 0.02em;
+      }
+
+      .tab-btn.active {
+        background: var(--surface-3);
+        color: var(--text-0);
+      }
+
+      .tab-pane {
+        display: none;
+      }
+      .tab-pane.active {
+        display: block;
+      }
+
+      .code-box {
+        background: var(--surface-1);
+        border: 1px solid var(--border-1);
+        border-radius: var(--r-lg);
+        padding: 24px;
+        font-family: var(--mono);
+        font-size: 12.5px;
+        line-height: 2;
+        color: var(--text-1);
+        overflow-x: auto;
+      }
+
+      .code-box .comment {
+        color: var(--text-2);
+      }
+      .code-box .keyword {
+        color: var(--text-0);
+      }
+      .code-box .value {
+        color: var(--green);
+      }
+
+      /* ── MODES ──────────────────────────────────── */
+      .modes-section {
+        padding: 72px 0;
+        border-bottom: 1px solid var(--border-0);
+      }
+
+      .modes-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1px;
+        background: var(--border-0);
+        border: 1px solid var(--border-0);
+        border-radius: var(--r-lg);
+        overflow: hidden;
+        margin-top: 32px;
+      }
+
+      .mode-card {
+        background: var(--surface-1);
+        padding: 28px;
+        transition: background 0.15s;
+      }
+
+      .mode-card:hover {
+        background: var(--surface-2);
+      }
+
+      .mode-flag {
+        font-family: var(--mono);
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--text-0);
+        background: var(--surface-3);
+        border: 1px solid var(--border-2);
+        display: inline-block;
+        padding: 3px 10px;
+        border-radius: var(--r-sm);
+        margin-bottom: 12px;
+        letter-spacing: 0.02em;
+      }
+
+      .mode-flag.default-flag {
+        color: var(--green);
+        border-color: rgba(62, 207, 142, 0.2);
+        background: var(--green-dim);
+      }
+
+      .mode-title {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-0);
+        margin-bottom: 6px;
+      }
+
+      .mode-desc {
+        font-size: 13px;
+        color: var(--text-1);
+        font-weight: 300;
+        line-height: 1.6;
+      }
+
+      /* ── FEATURES ───────────────────────────────── */
+      .features-section {
+        padding: 72px 0;
+        border-bottom: 1px solid var(--border-0);
+      }
+
+      .features-list {
+        list-style: none;
+        display: grid;
+        gap: 0;
+        margin-top: 32px;
+        border: 1px solid var(--border-0);
+        border-radius: var(--r-lg);
+        overflow: hidden;
+      }
+
+      .features-list li {
+        padding: 20px 24px;
+        border-bottom: 1px solid var(--border-0);
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+        transition: background 0.15s;
+      }
+
+      .features-list li:last-child {
+        border-bottom: none;
+      }
+
+      .features-list li:hover {
+        background: var(--surface-1);
+      }
+
+      .feat-icon {
+        font-size: 14px;
+        flex-shrink: 0;
+        margin-top: 1px;
+        opacity: 0.7;
+      }
+
+      .feat-text {
+        font-size: 14px;
+        color: var(--text-1);
+        font-weight: 300;
+      }
+
+      .feat-text strong {
+        color: var(--text-0);
+        font-weight: 500;
+      }
+
+      /* ── EXAMPLES ───────────────────────────────── */
+      .examples-section {
+        padding: 72px 0;
+        border-bottom: 1px solid var(--border-0);
+      }
+
+      .example-item {
+        margin-top: 24px;
+        border: 1px solid var(--border-0);
+        border-radius: var(--r-lg);
+        overflow: hidden;
+      }
+
+      .ex-row {
+        display: grid;
+        grid-template-columns: 60px 1fr;
+        gap: 0;
+        font-family: var(--mono);
+        font-size: 12.5px;
+        line-height: 1.5;
+      }
+
+      .ex-label {
+        padding: 16px;
+        background: var(--surface-1);
+        color: var(--text-2);
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-right: 1px solid var(--border-0);
+        writing-mode: initial;
+      }
+
+      .ex-in .ex-label {
+        border-bottom: 1px solid var(--border-0);
+      }
+
+      .ex-content {
+        padding: 16px 20px;
+        color: var(--text-1);
+      }
+
+      .ex-in .ex-content {
+        background: var(--surface-0);
+        border-bottom: 1px solid var(--border-0);
+      }
+
+      .ex-out .ex-content {
+        background: var(--surface-1);
+        color: var(--green);
+      }
+
+      .ex-badge {
+        display: inline-block;
+        font-family: var(--mono);
+        font-size: 10px;
+        padding: 2px 7px;
+        border-radius: var(--r-sm);
+        background: var(--surface-3);
+        border: 1px solid var(--border-2);
+        color: var(--text-1);
+        margin-left: 8px;
+        vertical-align: middle;
+        letter-spacing: 0.04em;
+      }
+
+      /* ── WORKS WITH ─────────────────────────────── */
+      .compat-section {
+        padding: 72px 0;
+        border-bottom: 1px solid var(--border-0);
+      }
+
+      .compat-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 24px;
+      }
+
+      .chip {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--text-1);
+        background: var(--surface-1);
+        border: 1px solid var(--border-1);
+        padding: 6px 14px;
+        border-radius: var(--r-full, 9999px);
+        letter-spacing: 0.02em;
+        transition: all 0.15s;
+      }
+
+      .chip:hover {
+        color: var(--text-0);
+        border-color: var(--border-2);
+      }
+
+      /* ── CTA ────────────────────────────────────── */
+      .cta-section {
+        padding: 96px 0;
+        text-align: center;
+      }
+
+      .cta-section h2 {
+        font-size: 28px;
+        font-weight: 300;
+        letter-spacing: -0.02em;
+        color: var(--text-0);
+        margin-bottom: 12px;
+      }
+
+      .cta-section p {
+        color: var(--text-1);
+        font-size: 15px;
+        font-weight: 300;
+        margin-bottom: 36px;
+      }
+
+      .cta-btns {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      /* ── FOOTER ─────────────────────────────────── */
+      footer {
+        border-top: 1px solid var(--border-0);
+        padding: 32px 0;
+      }
+
+      .footer-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .footer-made {
+        font-size: 13px;
+        color: var(--text-2);
+        font-weight: 300;
+      }
+
+      .footer-made a {
+        color: var(--text-1);
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+
+      .footer-made a:hover {
+        color: var(--text-0);
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 20px;
+      }
+
+      .footer-links a {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--text-2);
+        text-decoration: none;
+        letter-spacing: 0.02em;
+        transition: color 0.15s;
+      }
+
+      .footer-links a:hover {
+        color: var(--text-1);
+      }
+
+      /* ── ANIMATIONS ─────────────────────────────── */
+      @keyframes fade-up {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .hero > * {
+        animation: fade-up 0.5s ease forwards;
+        opacity: 0;
+      }
+
+      .hero .eyebrow {
+        animation-delay: 0.05s;
+      }
+      .hero h1 {
+        animation-delay: 0.12s;
+      }
+      .hero .hero-sub {
+        animation-delay: 0.18s;
+      }
+      .hero .hero-actions {
+        animation-delay: 0.24s;
+      }
+
+      /* ── RESPONSIVE ─────────────────────────────── */
+      @media (max-width: 640px) {
+        h1 {
+          font-size: 32px;
+        }
+
+        .modes-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .nav-links .btn-ghost {
+          display: none;
+        }
+
+        .ex-row {
+          grid-template-columns: 48px 1fr;
+        }
+
+        .footer-inner {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAV -->
+    <nav>
+      <div class="wrap nav-inner">
+        <div class="logo">pup<span> / prompt upgrade</span></div>
+        <div class="nav-links">
+          <a
+            href="https://github.com/thisMeSandeep/pup-cli"
+            target="_blank"
+            rel="noopener"
+            class="nav-link btn-ghost"
+            >GitHub</a
+          >
+          <a
+            href="https://www.npmjs.com/package/pup-prompt"
+            target="_blank"
+            rel="noopener"
+            class="nav-link btn-ghost"
+            >npm</a
+          >
+          <a
+            href="https://aistudio.google.com/apikey"
+            target="_blank"
+            rel="noopener"
+            class="nav-link cta"
+            >Get API Key →</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="wrap">
+        <div class="eyebrow">CLI Tool</div>
+        <h1>Upgrade your AI<br /><em>prompts instantly.</em></h1>
+        <p class="hero-sub">
+          Turn rough, rushed instructions into clear, structured prompts — right
+          from your terminal. Powered by Gemini.
+        </p>
+        <div class="hero-actions">
+          <a
+            href="https://github.com/thisMeSandeep/pup-prompt"
+            target="_blank"
+            rel="noopener"
+            class="btn btn-primary"
+            >View on GitHub</a
+          >
+          <a
+            href="https://www.npmjs.com/package/pup-prompt"
+            target="_blank"
+            rel="noopener"
+            class="btn btn-ghost"
+            >npm package ↗</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- TERMINAL DEMO -->
+    <section class="terminal-section">
+      <div class="wrap">
+        <div class="terminal">
+          <div class="terminal-top">
+            <div class="dots">
+              <div class="dot r"></div>
+              <div class="dot y"></div>
+              <div class="dot g"></div>
+            </div>
+            <span class="terminal-label">pup — demo</span>
+          </div>
+          <div class="terminal-body">
+            <div class="t-line">
+              <span class="t-prompt">$</span>
+              <span class="t-cmd"
+                >pup <span class="t-flag">"fix the auth bug"</span></span
+              >
+            </div>
+            <span class="t-out"
+              >Fix the authentication bug in the user session handling
+              logic.</span
+            >
+            <div class="t-line">
+              <span class="t-prompt">$</span>
+              <span class="t-cmd"
+                >pup <span class="t-flag">"add dark mode"</span> --enhance</span
+              >
+            </div>
+            <span class="t-out"
+              >Implement a dark mode toggle in the application settings page.
+              Add a switch component that allows users to toggle between light
+              and dark themes. Store the user's preference in local storage and
+              apply the appropriate theme on page load.</span
+            >
+            <div class="t-line">
+              <span class="t-prompt">$</span>
+              <span class="t-cmd"
+                >pup
+                <span class="t-flag"
+                  >"updated the user auth system to use JWT instead of
+                  sessions"</span
+                >
+                --short</span
+              >
+            </div>
+            <span class="t-out">Switch auth from sessions to JWT.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INSTALL -->
+    <section class="install-section">
+      <div class="wrap">
+        <div class="section-label">Installation</div>
+        <div class="install-block">
+          <div class="install-cmd">
+            <span class="prefix">$ </span>npm install -g pup-prompt
+          </div>
+          <button
+            class="copy-btn"
+            data-copy="npm install -g pup-prompt"
+            onclick="copyCmd(this)"
+          >
+            copy
+          </button>
+        </div>
+        <div class="note-small">Requires Node.js 18+</div>
+      </div>
+    </section>
+
+    <!-- SETUP -->
+    <section class="setup-section">
+      <div class="wrap">
+        <div class="section-label">Setup</div>
+        <p
+          style="
+            color: var(--text-1);
+            font-size: 14px;
+            font-weight: 300;
+            margin-bottom: 24px;
+          "
+        >
+          Get a free API key from
+          <a
+            href="https://aistudio.google.com/apikey"
+            target="_blank"
+            style="color: var(--text-0); text-underline-offset: 3px"
+            >Google AI Studio</a
+          >, then set the environment variable.
+        </p>
+
+        <div class="tab-bar">
+          <button class="tab-btn active" data-tab="mac">macOS / Linux</button>
+          <button class="tab-btn" data-tab="win">Windows</button>
+        </div>
+
+        <div class="tab-pane active" id="tab-mac">
+          <div class="code-box">
+            <span class="comment"># bash</span><br />
+            <span class="keyword">echo</span>
+            <span class="value">'export GEMINI_PUP_API_KEY=your_key'</span> >>
+            ~/.bashrc<br />
+            <span class="keyword">source</span> ~/.bashrc<br />
+            <br />
+            <span class="comment"># zsh</span><br />
+            <span class="keyword">echo</span>
+            <span class="value">'export GEMINI_PUP_API_KEY=your_key'</span> >>
+            ~/.zshrc<br />
+            <span class="keyword">source</span> ~/.zshrc
+          </div>
+        </div>
+        <div class="tab-pane" id="tab-win">
+          <div class="code-box">
+            <span class="comment"># PowerShell</span><br />
+            [System.Environment]::SetEnvironmentVariable(<span class="value"
+              >'GEMINI_PUP_API_KEY'</span
+            >, <span class="value">'your_key'</span>,
+            <span class="value">'User'</span>)<br />
+            <br />
+            <span class="comment"># Command Prompt</span><br />
+            <span class="keyword">setx</span> GEMINI_PUP_API_KEY
+            <span class="value">"your_key"</span>
+          </div>
+          <p style="margin-top: 10px" class="note-small">
+            Restart your terminal after setting the key.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODES -->
+    <section class="modes-section">
+      <div class="wrap">
+        <div class="section-label">Modes</div>
+        <div class="modes-grid">
+          <div class="mode-card">
+            <div class="mode-flag default-flag">default</div>
+            <div class="mode-title">Default</div>
+            <div class="mode-desc">
+              Light cleanup and clarity improvement. Keeps your intent, removes
+              ambiguity.
+            </div>
+          </div>
+          <div class="mode-card">
+            <div class="mode-flag">--enhance</div>
+            <div class="mode-title">Enhance</div>
+            <div class="mode-desc">
+              Full expansion with detail, edge cases, and structured context.
+            </div>
+          </div>
+          <div class="mode-card">
+            <div class="mode-flag">--short</div>
+            <div class="mode-title">Short</div>
+            <div class="mode-desc">
+              Strips fluff. Condenses your prompt to its essential instruction.
+            </div>
+          </div>
+          <div class="mode-card">
+            <div class="mode-flag">--fix</div>
+            <div class="mode-title">Fix</div>
+            <div class="mode-desc">
+              Typos and grammar only. Content stays untouched.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features-section">
+      <div class="wrap">
+        <div class="section-label">Features</div>
+        <ul class="features-list">
+          <li>
+            <span class="feat-icon">↗</span>
+            <span class="feat-text"
+              ><strong>Four modes</strong> — Default, enhance, shorten, and fix.
+              Pick the right level for the job.</span
+            >
+          </li>
+          <li>
+            <span class="feat-icon">⌘</span>
+            <span class="feat-text"
+              ><strong>Auto-clipboard</strong> — Output is copied automatically.
+              No extra step needed.</span
+            >
+          </li>
+          <li>
+            <span class="feat-icon">|</span>
+            <span class="feat-text"
+              ><strong>Pipe-friendly</strong> — Composable in shell pipelines.
+              Works with your existing workflow.</span
+            >
+          </li>
+          <li>
+            <span class="feat-icon">⚡</span>
+            <span class="feat-text"
+              ><strong>Fast</strong> — Powered by Gemini 2.5 Flash Lite for
+              near-instant responses.</span
+            >
+          </li>
+          <li>
+            <span class="feat-icon">∅</span>
+            <span class="feat-text"
+              ><strong>Free tier eligible</strong> — Uses your own Gemini API
+              key. No subscription required.</span
+            >
+          </li>
+          <li>
+            <span class="feat-icon">◎</span>
+            <span class="feat-text"
+              ><strong>Cross-platform</strong> — macOS, Linux, and
+              Windows.</span
+            >
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- EXAMPLES -->
+    <section class="examples-section">
+      <div class="wrap">
+        <div class="section-label">Examples</div>
+
+        <div class="example-item">
+          <div class="ex-row ex-in">
+            <div class="ex-label">in</div>
+            <div class="ex-content">login not working</div>
+          </div>
+          <div class="ex-row ex-out">
+            <div class="ex-label">out</div>
+            <div class="ex-content">
+              Fix the login functionality that is currently not working.
+            </div>
+          </div>
+        </div>
+
+        <div class="example-item">
+          <div class="ex-row ex-in">
+            <div class="ex-label">in</div>
+            <div class="ex-content">
+              add dark mode to settings page
+              <span class="ex-badge">--enhance</span>
+            </div>
+          </div>
+          <div class="ex-row ex-out">
+            <div class="ex-label">out</div>
+            <div class="ex-content">
+              Implement a dark mode toggle in the application settings page. Add
+              a switch component that allows users to toggle between light and
+              dark themes. Store the user's preference in local storage and
+              apply the appropriate theme on page load.
+            </div>
+          </div>
+        </div>
+
+        <div class="example-item">
+          <div class="ex-row ex-in">
+            <div class="ex-label">in</div>
+            <div class="ex-content">
+              updated the user authentication system to use JWT tokens instead
+              of sessions <span class="ex-badge">--short</span>
+            </div>
+          </div>
+          <div class="ex-row ex-out">
+            <div class="ex-label">out</div>
+            <div class="ex-content">Switch auth from sessions to JWT.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WORKS WITH -->
+    <section class="compat-section">
+      <div class="wrap">
+        <div class="section-label">Works with</div>
+        <div class="compat-chips">
+          <span class="chip">GitHub Copilot</span>
+          <span class="chip">Claude Code</span>
+          <span class="chip">Cursor</span>
+          <span class="chip">ChatGPT</span>
+          <span class="chip">Codex</span>
+          <span class="chip">Any AI tool</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+      <div class="wrap">
+        <h2>Start writing better prompts.</h2>
+        <p>One install. No config. Works immediately.</p>
+        <div class="cta-btns">
+          <a
+            href="https://github.com/thisMeSandeep/pup-prompt"
+            target="_blank"
+            rel="noopener"
+            class="btn btn-primary"
+            >View on GitHub</a
+          >
+          <a
+            href="https://www.npmjs.com/package/pup-prompt"
+            target="_blank"
+            rel="noopener"
+            class="btn btn-ghost"
+            >npm ↗</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="wrap footer-inner">
+        <span class="footer-made"
+          >Made by
+          <a
+            href="https://github.com/thisMeSandeep"
+            target="_blank"
+            rel="noopener"
+            >Sandeep Singh Nayal</a
+          ></span
+        >
+        <div class="footer-links">
+          <a
+            href="https://github.com/thisMeSandeep/pup-prompt/issues"
+            target="_blank"
+            rel="noopener"
+            >Issues</a
+          >
+          <a
+            href="https://aistudio.google.com/apikey"
+            target="_blank"
+            rel="noopener"
+            >Get API Key</a
+          >
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // tabs
+      document.querySelectorAll(".tab-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document
+            .querySelectorAll(".tab-btn")
+            .forEach((b) => b.classList.remove("active"));
+          document
+            .querySelectorAll(".tab-pane")
+            .forEach((p) => p.classList.remove("active"));
+          btn.classList.add("active");
+          document
+            .getElementById("tab-" + btn.dataset.tab)
+            .classList.add("active");
+        });
+      });
+
+      // copy
+      function copyCmd(btn) {
+        navigator.clipboard.writeText(btn.dataset.copy).then(() => {
+          btn.textContent = "copied!";
+          btn.classList.add("copied");
+          setTimeout(() => {
+            btn.textContent = "copy";
+            btn.classList.remove("copied");
+          }, 2000);
+        });
+      }
+    </script>
+  </body>
+</html>
