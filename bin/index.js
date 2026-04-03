@@ -5,10 +5,12 @@
 
 import { program } from "commander";
 import { run } from "../src/commands/run.js"; // The main handler for the "run" command, which orchestrates the whole process.
+import packageJson from "../package.json" with { type: "json" };
 
 program
   .name("pup")
   .description("Improve your AI prompts directly from the terminal")
+  .version(packageJson.version, "-v, --version", "Show the current pup version")
   .argument("[prompt...]", "The prompt to improve")
   .option("--enhance", "Fully enhance the prompt with detail and structure")
   .option("--short", "Shorten the prompt, remove all fluff")
