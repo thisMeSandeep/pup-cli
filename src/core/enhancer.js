@@ -17,10 +17,10 @@ function getMode(options = {}) {
 // options: CLI flags (enhance, short, fix)
 // returns: improved prompt text
 export async function improvePrompt(prompt, options) {
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = process.env.GEMINI_PUP_API_KEY;
   if (!apiKey) {
     throw new Error(
-      `GEMINI_API_KEY environment variable is not set.\n\nTo fix this, run:\n  echo 'export GEMINI_API_KEY=your_key_here' >> ~/.zshrc && source ~/.zshrc\n\nGet your free API key at: https://aistudio.google.com/apikey`,
+      `GEMINI_PUP_API_KEY environment variable is not set.\n\nTo fix this, run:\n  echo 'export GEMINI_PUP_API_KEY=your_key_here' >> ~/.zshrc && source ~/.zshrc\n\nGet your free API key at: https://aistudio.google.com/apikey`,
     );
   }
 

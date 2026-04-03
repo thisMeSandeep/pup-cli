@@ -18,10 +18,22 @@ program
     `
 Setup:
   1. Get a free API key at https://aistudio.google.com/apikey
-  2. Add it to your shell profile:
-     echo 'export GEMINI_API_KEY=your_key' >> ~/.zshrc && source ~/.zshrc
-  3. To change your key later, edit ~/.zshrc or run:
-     export GEMINI_API_KEY=your_new_key
+  
+  2. Set the environment variable permanently:
+  
+     macOS/Linux (bash):
+       echo 'export GEMINI_PUP_API_KEY=your_key' >> ~/.bashrc && source ~/.bashrc
+     
+     macOS/Linux (zsh):
+       echo 'export GEMINI_PUP_API_KEY=your_key' >> ~/.zshrc && source ~/.zshrc
+     
+     Windows (PowerShell):
+       [System.Environment]::SetEnvironmentVariable('GEMINI_PUP_API_KEY', 'your_key', 'User')
+       Then restart your terminal
+     
+     Windows (Command Prompt):
+       setx GEMINI_PUP_API_KEY "your_key"
+       Then restart your terminal
 
 Examples:
   pup "fix the auth bug"              Light cleanup (default)
